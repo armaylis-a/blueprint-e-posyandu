@@ -1,0 +1,16 @@
+# Environment dan kredensial
+.env
+config/database.local.php
+
+# Log dan cache lokal
+*.log
+.cache/
+storage/
+
+# Marker/placeholder attachment
+.kilo
+/60225063_Armaylis Arfa Blueprint PemWeb - C.pdf
+
+# OS/editor
+.DS_Store
+Thumbs.db
