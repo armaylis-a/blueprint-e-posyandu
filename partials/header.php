@@ -42,7 +42,7 @@ $flash = get_flash();
             <nav class="main-nav" aria-label="Navigasi utama">
                 <a href="<?= e(app_url('index.php')) ?>">Dashboard</a>
                 <a href="<?= e(app_url('modules/balita/index.php')) ?>">Data Balita</a>
-                <span class="nav-disabled" title="Segera hadir">Timbangan</span>
+                <a href="<?= e(app_url('modules/timbangan/index.php')) ?>">Timbangan</a>
                 <span class="nav-disabled" title="Segera hadir">Laporan</span>
             </nav>
         </header>

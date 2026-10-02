@@ -33,7 +33,8 @@ Logika stunting sederhana pada blueprint boleh dipertahankan hanya sebagai **sim
 - [x] Data demo diverifikasi pada MariaDB 10.4
 - [x] Autentikasi dan session login
 - [x] CRUD balita sintetis
-- [ ] Input timbangan dan modul pengukuran
+- [x] Input timbangan dan assessor demo
+- [ ] Dashboard ringkasan dan laporan
 
 ---
 

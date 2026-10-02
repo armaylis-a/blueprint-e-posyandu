@@ -118,6 +118,19 @@ function validate_child_payload(array $input): array
     return ['data' => $data, 'errors' => $errors];
 }
 
+function active_children_for_user(): array
+{
+    $statement = db()->prepare(
+        'SELECT id_balita, kode_balita, nama_balita, jenis_kelamin, tgl_lahir
+         FROM data_balita
+         WHERE id_posyandu = :id_posyandu AND is_active = 1
+         ORDER BY nama_balita ASC, kode_balita ASC'
+    );
+    $statement->execute(['id_posyandu' => current_posyandu_id()]);
+
+    return $statement->fetchAll();
+}
+
 function find_child_for_user(int $childId): ?array
 {
     if ($childId < 1 || current_posyandu_id() < 1) {

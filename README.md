@@ -15,6 +15,7 @@ Aplikasi web-mobile berbasis PHP Native, MySQL/MariaDB, dan CSS responsif untuk 
 - Rate limit login sederhana per session untuk demo.
 - Dashboard terlindungi dengan pemeriksaan session.
 - CRUD data balita: daftar, pencarian, tambah, edit, detail, dan arsip soft delete.
+- Input timbangan dengan perhitungan usia server-side dan assessor demo IF-ELSE.
 - Validasi server-side, prepared statement, CSRF, RBAC, dan audit log untuk perubahan data.
 - Tampilan responsif untuk desktop dan ponsel.
 - Database, seed, reset, dan dokumentasi pada folder `database/`.
@@ -92,6 +93,7 @@ includes/
   functions.php      # helper output/flash/url
   auth.php           # login, CSRF, authorization
   children.php       # validasi dan operasi domain balita
+  assessment.php     # usia dan assessor demo
 partials/
   header.php
   footer.php
@@ -105,6 +107,10 @@ modules/balita/
   simpan.php         # endpoint POST create/update
   detail.php         # detail dan riwayat
   hapus.php          # arsip soft delete
+modules/timbangan/
+  index.php          # riwayat timbangan
+  form.php           # input pengukuran
+  simpan.php         # validasi, simpan, assessor demo
 assets/css/style.css
 login.php
 index.php
@@ -113,7 +119,7 @@ logout.php
 
 ## Langkah berikutnya
 
-1. Input timbangan dengan perhitungan usia di server.
-2. Modul assessor stunting.
-3. Dashboard dan laporan.
-4. PWA dan pengujian.
+1. Dashboard ringkasan dan laporan bulanan.
+2. PWA dan mode offline informasi gizi.
+3. Pengujian boundary, keamanan, dan UAT.
+4. Validasi algoritma standar WHO/Kemenkes sebelum pilot.

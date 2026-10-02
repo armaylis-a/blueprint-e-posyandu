@@ -99,8 +99,8 @@ require __DIR__ . '/partials/header.php';
             </div>
             <div class="module-item">
                 <span class="module-number">03</span>
-                <div><strong>Timbangan & stunting</strong><small>Simulasi demo, bukan diagnosis</small></div>
-                <span class="status status-planned">Direncanakan</span>
+                <div><strong>Timbangan & stunting</strong><small>Selesai · assessor demo IF-ELSE</small></div>
+                <span class="status status-done">Selesai</span>
             </div>
             <div class="module-item">
                 <span class="module-number">04</span>

@@ -307,6 +307,12 @@ code {
     border-color: #b9e3e8;
 }
 
+.alert-warning {
+    color: var(--warning);
+    background: var(--warning-soft);
+    border-color: #f0d89d;
+}
+
 .alert-error {
     color: var(--danger);
     background: var(--danger-soft);
@@ -680,7 +686,8 @@ td small {
 }
 
 .field input,
-.field select {
+.field select,
+.field textarea {
     width: 100%;
     min-height: 42px;
     padding: 8px 11px;
@@ -691,10 +698,28 @@ td small {
     font: inherit;
 }
 
+.field textarea {
+    resize: vertical;
+}
+
 .field input:focus,
-.field select:focus {
+.field select:focus,
+.field textarea:focus {
     outline: 3px solid rgba(20, 125, 146, 0.22);
     outline-offset: 1px;
+}
+
+.info-icon {
+    width: 20px;
+    height: 20px;
+    display: inline-grid;
+    place-items: center;
+    flex: 0 0 auto;
+    color: #fff;
+    background: var(--primary);
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 800;
 }
 
 .form-panel {
