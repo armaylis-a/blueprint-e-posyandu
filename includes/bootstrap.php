@@ -9,11 +9,17 @@ ini_set('display_errors', $debug ? '1' : '0');
 error_reporting(E_ALL);
 
 if (!headers_sent()) {
+    $isHttps = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
     header('X-Content-Type-Options: nosniff');
     header('X-Frame-Options: DENY');
     header('Referrer-Policy: same-origin');
     header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
-    header("Content-Security-Policy: default-src 'self'; style-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'");
+    header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    header('Pragma: no-cache');
+    if ($isHttps) {
+        header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+    }
+    header("Content-Security-Policy: default-src 'self'; style-src 'self'; script-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'");
 }
 
 require_once __DIR__ . '/../config/session.php';

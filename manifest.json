@@ -1,0 +1,28 @@
+{
+  "name": "E-Posyandu Digital",
+  "short_name": "E-Posyandu",
+  "description": "MVP akademik E-Posyandu dengan data demonstrasi sintetis",
+  "lang": "id-ID",
+  "dir": "ltr",
+  "start_url": "modules/gizi/index.html",
+  "scope": "./",
+  "id": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4f8fa",
+  "theme_color": "#147d92",
+  "icons": [
+    {
+      "src": "assets/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

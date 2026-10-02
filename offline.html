@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#147d92">
+    <meta name="sw-path" content="sw.js">
+    <link rel="manifest" href="manifest.json">
+    <title>Offline | E-Posyandu</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="module-page offline-page">
+<div class="app-shell">
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a class="brand" href="index.php" aria-label="Beranda E-Posyandu">
+                <span class="brand-mark">EP</span>
+                <span>
+                    <strong>E-Posyandu</strong>
+                    <small>MVP Akademik · Mode offline</small>
+                </span>
+            </a>
+        </div>
+    </header>
+
+    <main class="page-container">
+        <section class="login-shell">
+            <div class="login-card">
+                <div class="login-heading">
+                    <span class="brand-mark brand-mark-large">EP</span>
+                    <div>
+                        <p class="eyebrow">KONEKSI TERBATAS</p>
+                        <h1>Mode offline</h1>
+                        <p class="muted">Halaman yang belum tersimpan tidak dapat dibuka.</p>
+                    </div>
+                </div>
+
+                <div class="alert alert-info" role="status">
+                    <strong>Panduan gizi tetap tersedia.</strong>
+                    Buka panduan MPASI yang sudah disimpan di perangkat.
+                </div>
+
+                <a class="button button-primary button-block" href="modules/gizi/index.html">Buka panduan gizi</a>
+                <a class="button button-ghost button-block" href="index.php">Coba login kembali</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <small>E-Posyandu MVP Akademik · data demo</small>
+    </footer>
+</div>
+<script src="assets/js/app.js" defer></script>
+</body>
+</html>

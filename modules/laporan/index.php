@@ -29,7 +29,10 @@ require __DIR__ . '/../../partials/header.php';
         <p class="muted">Rekap pengukuran dan hasil assessor demo per periode.</p>
     </div>
     <?php if ($report !== null): ?>
-        <a class="button button-primary" href="<?= e(app_url('modules/laporan/cetak.php?bulan=' . urlencode($report['month']))) ?>">Cetak Laporan</a>
+        <div class="heading-actions">
+            <a class="button button-secondary" href="<?= e(app_url('modules/laporan/ekspor.php?bulan=' . urlencode($report['month']))) ?>">Export CSV</a>
+            <a class="button button-primary" href="<?= e(app_url('modules/laporan/cetak.php?bulan=' . urlencode($report['month']))) ?>">Cetak Laporan</a>
+        </div>
     <?php endif; ?>
 </section>
 

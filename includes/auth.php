@@ -35,7 +35,20 @@ function auth_user(): ?array
 
 function auth_check(): bool
 {
-    return auth_user() !== null;
+    $user = auth_user();
+    if ($user === null) {
+        return false;
+    }
+
+    $lastActivity = (int) ($_SESSION['_last_activity'] ?? time());
+    if ((time() - $lastActivity) > 1800) {
+        auth_logout();
+        return false;
+    }
+
+    $_SESSION['_last_activity'] = time();
+
+    return true;
 }
 
 function auth_require(): void
@@ -145,6 +158,7 @@ function auth_login(string $username, string $password): array
         'role'          => (string) $user['role'],
         'login_at'      => date('c'),
     ];
+    $_SESSION['_last_activity'] = time();
 
     return ['ok' => true];
 }

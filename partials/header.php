@@ -13,6 +13,8 @@ $flash = get_flash();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="E-Posyandu MVP Akademik dengan data sintetis">
+    <meta name="sw-path" content="<?= e(app_url('sw.js')) ?>">
+    <link rel="manifest" href="<?= e(app_url('manifest.json')) ?>">
     <title><?= e($pageTitle) ?> | E-Posyandu</title>
     <link rel="stylesheet" href="<?= e(app_url('assets/css/style.css')) ?>">
 </head>

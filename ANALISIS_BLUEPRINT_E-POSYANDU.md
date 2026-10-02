@@ -35,6 +35,14 @@ Logika stunting sederhana pada blueprint boleh dipertahankan hanya sebagai **sim
 - [x] CRUD balita sintetis
 - [x] Input timbangan dan assessor demo
 - [x] Dashboard ringkasan dan laporan bulanan/cetak
+- [x] PWA read-only untuk panduan gizi offline
+- [x] Test plan, validasi seed, deployment guide, dan production checklist
+- [x] Ekspor CSV aman dan tampilan cetak
+
+### Status Akhir
+
+- **MVP akademik:** fitur yang disepakati selesai 100% untuk demo/akademik.
+- **Production:** belum 100%; masih ada blocker standar klinis, UAT, backup, monitoring, dan review privasi.
 
 ---
 

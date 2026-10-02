@@ -1,6 +1,6 @@
 # E-Posyandu MVP Akademik
 
-Aplikasi web-mobile berbasis PHP Native, MySQL/MariaDB, dan CSS responsif untuk tahap **MVP akademik**, dengan PWA direncanakan pada tahap berikutnya.
+Aplikasi web-mobile berbasis PHP Native, MySQL/MariaDB, CSS responsif, dan PWA untuk tahap **MVP akademik**.
 
 > **Penting:** proyek ini menggunakan data sintetis/demo. Jangan memasukkan NIK, nomor telepon, alamat, atau data pribadi anak/wali nyata.
 
@@ -16,7 +16,9 @@ Aplikasi web-mobile berbasis PHP Native, MySQL/MariaDB, dan CSS responsif untuk 
 - Dashboard terlindungi dengan pemeriksaan session.
 - CRUD data balita: daftar, pencarian, tambah, edit, detail, dan arsip soft delete.
 - Input timbangan dengan perhitungan usia server-side dan assessor demo IF-ELSE.
-- Laporan bulanan dengan filter periode, ringkasan, dan tampilan cetak.
+- Laporan bulanan dengan filter periode, ringkasan, tampilan cetak, dan ekspor CSV.
+- PWA installable dengan halaman offline khusus informasi gizi/MPASI.
+- Service Worker hanya meng-cache aset publik; halaman PHP/API tidak di-cache.
 - Validasi server-side, prepared statement, CSRF, RBAC, dan audit log untuk perubahan data.
 - Tampilan responsif untuk desktop dan ponsel.
 - Database, seed, reset, dan dokumentasi pada folder `database/`.
@@ -83,6 +85,15 @@ Jangan menyimpan kredensial production di dalam file PHP atau repository.
 
 Seed `DEMO-IFELSE` hanya mensimulasikan ambang tinggi dari blueprint. Status `demo_indikasi_stunting` dan `demo_normal` **bukan diagnosis klinis**. Sebelum pilot atau produksi, ganti dengan standar antropometri resmi, tabel LMS/z-score, validasi metode ukur, dan persetujuan tenaga kesehatan.
 
+## PWA dan offline
+
+- `manifest.json` mengaktifkan instalasi PWA.
+- `sw.js` menyimpan halaman `./offline.html`, panduan `./modules/gizi/index.html`, CSS, JavaScript, dan ikon.
+- Halaman PHP, API, session, dan data balita tidak masuk cache.
+- Naikkan `CACHE_NAME` di `sw.js` setiap kali aset PWA berubah.
+- Service Worker hanya berjalan pada HTTPS atau `localhost`.
+- Fitur offline yang tersedia adalah **baca panduan gizi**, bukan input data klinis.
+
 ## Struktur Ringkas
 
 ```text
@@ -95,6 +106,7 @@ includes/
   auth.php           # login, CSRF, authorization
   children.php       # validasi dan operasi domain balita
   assessment.php     # usia dan assessor demo
+  reports.php        # query laporan bulanan
 partials/
   header.php
   footer.php
@@ -115,9 +127,21 @@ modules/timbangan/
 modules/laporan/
   index.php          # laporan bulanan dan filter periode
   cetak.php          # tampilan cetak/PDF dari browser
-includes/reports.php  # query dan ringkasan laporan
-assets/js/app.js       # tombol cetak browser
+  ekspor.php         # ekspor CSV aman
+modules/gizi/
+  index.html         # panduan MPASI offline
+assets/js/app.js       # tombol cetak dan registrasi Service Worker
+assets/images/         # ikon PWA
 assets/css/style.css
+tests/
+  validate_mvp.php   # validasi database/seed
+  README.md          # test plan
+docs/
+  DEPLOYMENT.md
+  PRODUCTION_CHECKLIST.md
+manifest.json
+sw.js
+offline.html
 login.php
 index.php
 logout.php
@@ -125,7 +149,7 @@ logout.php
 
 ## Langkah berikutnya
 
-1. PWA dan mode offline informasi gizi.
-2. Pengujian boundary, keamanan, dan UAT.
-3. Validasi algoritma standar WHO/Kemenkes sebelum pilot.
-4. Ekspor PDF/CSV dan improve laporan operasional.
+1. Ganti assessor demo dengan standar WHO/Kemenkes tervalidasi.
+2. Jalankan test plan, security review, dan UAT.
+3. Siapkan backup, monitoring, staging, dan rollback.
+4. Jika diperlukan, tambahkan sinkronisasi offline untuk input data.
