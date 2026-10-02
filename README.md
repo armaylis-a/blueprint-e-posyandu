@@ -46,7 +46,19 @@ Jika project berada di `htdocs`, buka:
 http://localhost/nama-folder/login.php
 ```
 
-Disarankan mengatur document root Apache langsung ke folder project. File `.htaccess` juga memblokir akses web ke `config`, `includes`, `partials`, dan `database`.
+Disarankan mengatur document root Apache langsung ke folder project. File `.htaccess` juga memblokir akses web ke `config`, `includes`, `partials`, `database`, `docs`, `tests`, dan metadata Git.
+
+Untuk XAMPP tanpa mengubah document root, project dapat diakses melalui junction:
+
+```text
+C:\xampp\htdocs\eposyandu -> D:\Blueprint E-posyandu
+```
+
+URL lokal:
+
+```text
+http://localhost/eposyandu/login.php
+```
 
 ## Konfigurasi database
 

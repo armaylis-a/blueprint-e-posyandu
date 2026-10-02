@@ -1,0 +1,14 @@
+Options -Indexes
+
+# Jangan ekspos metadata repository atau folder internal melalui web.
+RedirectMatch 404 (?i)/\.git(?:/|$)
+RedirectMatch 404 (?i)/\.(?:env|kilo)(?:/|$)
+RedirectMatch 404 (?i)/(?:\.kilo|tests|docs|database)(?:/|$)
+
+<IfModule mod_authz_core.c>
+    Require all granted
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Allow from all
+</IfModule>
