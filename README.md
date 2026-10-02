@@ -16,6 +16,7 @@ Aplikasi web-mobile berbasis PHP Native, MySQL/MariaDB, dan CSS responsif untuk 
 - Dashboard terlindungi dengan pemeriksaan session.
 - CRUD data balita: daftar, pencarian, tambah, edit, detail, dan arsip soft delete.
 - Input timbangan dengan perhitungan usia server-side dan assessor demo IF-ELSE.
+- Laporan bulanan dengan filter periode, ringkasan, dan tampilan cetak.
 - Validasi server-side, prepared statement, CSRF, RBAC, dan audit log untuk perubahan data.
 - Tampilan responsif untuk desktop dan ponsel.
 - Database, seed, reset, dan dokumentasi pada folder `database/`.
@@ -111,6 +112,11 @@ modules/timbangan/
   index.php          # riwayat timbangan
   form.php           # input pengukuran
   simpan.php         # validasi, simpan, assessor demo
+modules/laporan/
+  index.php          # laporan bulanan dan filter periode
+  cetak.php          # tampilan cetak/PDF dari browser
+includes/reports.php  # query dan ringkasan laporan
+assets/js/app.js       # tombol cetak browser
 assets/css/style.css
 login.php
 index.php
@@ -119,7 +125,7 @@ logout.php
 
 ## Langkah berikutnya
 
-1. Dashboard ringkasan dan laporan bulanan.
-2. PWA dan mode offline informasi gizi.
-3. Pengujian boundary, keamanan, dan UAT.
-4. Validasi algoritma standar WHO/Kemenkes sebelum pilot.
+1. PWA dan mode offline informasi gizi.
+2. Pengujian boundary, keamanan, dan UAT.
+3. Validasi algoritma standar WHO/Kemenkes sebelum pilot.
+4. Ekspor PDF/CSV dan improve laporan operasional.

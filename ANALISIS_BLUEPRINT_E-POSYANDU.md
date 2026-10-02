@@ -34,7 +34,7 @@ Logika stunting sederhana pada blueprint boleh dipertahankan hanya sebagai **sim
 - [x] Autentikasi dan session login
 - [x] CRUD balita sintetis
 - [x] Input timbangan dan assessor demo
-- [ ] Dashboard ringkasan dan laporan
+- [x] Dashboard ringkasan dan laporan bulanan/cetak
 
 ---
 

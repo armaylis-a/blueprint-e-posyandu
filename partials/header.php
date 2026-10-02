@@ -43,7 +43,7 @@ $flash = get_flash();
                 <a href="<?= e(app_url('index.php')) ?>">Dashboard</a>
                 <a href="<?= e(app_url('modules/balita/index.php')) ?>">Data Balita</a>
                 <a href="<?= e(app_url('modules/timbangan/index.php')) ?>">Timbangan</a>
-                <span class="nav-disabled" title="Segera hadir">Laporan</span>
+                <a href="<?= e(app_url('modules/laporan/index.php')) ?>">Laporan</a>
             </nav>
         </header>
     <?php endif; ?>

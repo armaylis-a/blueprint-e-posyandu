@@ -22,3 +22,4 @@ require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/children.php';
 require_once __DIR__ . '/assessment.php';
+require_once __DIR__ . '/reports.php';

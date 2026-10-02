@@ -928,3 +928,156 @@ td small {
         flex-basis: auto;
     }
 }
+
+.report-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.print-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    margin-bottom: 18px;
+}
+
+.print-document {
+    padding: 26px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+}
+
+.print-document-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid var(--ink);
+}
+
+.print-document-header h1 {
+    margin-bottom: 3px;
+}
+
+.print-document-header p:last-child {
+    margin-bottom: 0;
+    color: var(--muted);
+}
+
+.print-meta {
+    display: grid;
+    gap: 3px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    text-align: right;
+}
+
+.print-meta strong {
+    color: var(--ink);
+}
+
+.print-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 18px 0;
+}
+
+.print-summary div {
+    display: grid;
+    gap: 2px;
+    padding: 10px;
+    background: #f4f8fa;
+    border-radius: 8px;
+}
+
+.print-summary span {
+    color: var(--muted);
+    font-size: 0.75rem;
+}
+
+.print-summary strong {
+    font-size: 1.25rem;
+}
+
+.print-disclaimer {
+    padding: 9px 11px;
+    color: var(--warning);
+    background: var(--warning-soft);
+    border-radius: 7px;
+    font-size: 0.82rem;
+}
+
+.print-table {
+    width: 100%;
+    margin-top: 16px;
+    border-collapse: collapse;
+    font-size: 0.76rem;
+}
+
+.print-table th,
+.print-table td {
+    padding: 7px 6px;
+    border: 1px solid #cfdae0;
+    text-align: left;
+}
+
+.print-table th {
+    color: var(--ink);
+    background: #f1f6f7;
+}
+
+@media print {
+    .topbar,
+    .site-footer,
+    .print-actions,
+    .alert,
+    .no-print {
+        display: none !important;
+    }
+
+    body,
+    .app-shell,
+    .page-container {
+        background: #fff;
+    }
+
+    .page-container {
+        width: 100%;
+        padding: 0;
+    }
+
+    .print-document {
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .print-table {
+        font-size: 9pt;
+    }
+
+    .print-table th,
+    .print-table td {
+        padding: 4px;
+    }
+}
+
+@media (max-width: 760px) {
+    .report-stats,
+    .print-summary,
+    .print-document-header {
+        grid-template-columns: 1fr;
+        display: block;
+    }
+
+    .print-summary div {
+        margin-bottom: 8px;
+    }
+
+    .print-meta {
+        margin-top: 14px;
+        text-align: left;
+    }
+}
