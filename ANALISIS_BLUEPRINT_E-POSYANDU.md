@@ -32,7 +32,8 @@ Logika stunting sederhana pada blueprint boleh dipertahankan hanya sebagai **sim
 - [x] Panduan import: `database/README.md`
 - [x] Data demo diverifikasi pada MariaDB 10.4
 - [x] Autentikasi dan session login
-- [ ] CRUD balita dan modul pengukuran
+- [x] CRUD balita sintetis
+- [ ] Input timbangan dan modul pengukuran
 
 ---
 

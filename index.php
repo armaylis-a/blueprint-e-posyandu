@@ -45,7 +45,8 @@ require __DIR__ . '/partials/header.php';
     <div>
         <p class="eyebrow">DASHBOARD · DATA SINTETIS</p>
         <h1>Selamat datang, <?= e($currentUser['nama_lengkap'] ?? 'Pengguna') ?>.</h1>
-        <p class="muted">Modul autentikasi MVP telah aktif. DATA berikutnya menggunakan data contoh fiktif.</p>
+        <p class="muted">Modul autentikasi dan CRUD data balita telah aktif. Seluruh data menggunakan contoh fiktif.</p>
+        <a class="button button-light" href="<?= e(app_url('modules/balita/index.php')) ?>">Kelola Data Balita</a>
     </div>
     <div class="role-chip">
         <span>Peran</span>
@@ -93,8 +94,8 @@ require __DIR__ . '/partials/header.php';
             </div>
             <div class="module-item">
                 <span class="module-number">02</span>
-                <div><strong>CRUD Balita</strong><small>Belum dikerjakan</small></div>
-                <span class="status status-next">Berikutnya</span>
+                <div><strong>CRUD Balita</strong><small>Selesai · data sintetis, arsip soft delete</small></div>
+                <span class="status status-done">Selesai</span>
             </div>
             <div class="module-item">
                 <span class="module-number">03</span>

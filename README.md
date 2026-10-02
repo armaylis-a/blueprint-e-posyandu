@@ -14,6 +14,8 @@ Aplikasi web-mobile berbasis PHP Native, MySQL/MariaDB, dan CSS responsif untuk 
 - Session cookie `HttpOnly`, `SameSite=Lax`, dan opsi `Secure` untuk HTTPS.
 - Rate limit login sederhana per session untuk demo.
 - Dashboard terlindungi dengan pemeriksaan session.
+- CRUD data balita: daftar, pencarian, tambah, edit, detail, dan arsip soft delete.
+- Validasi server-side, prepared statement, CSRF, RBAC, dan audit log untuk perubahan data.
 - Tampilan responsif untuk desktop dan ponsel.
 - Database, seed, reset, dan dokumentasi pada folder `database/`.
 
@@ -87,8 +89,9 @@ config/
   session.php        # konfigurasi session
 includes/
   bootstrap.php      # bootstrap aplikasi
-  functions.php      # helper output/flash
+  functions.php      # helper output/flash/url
   auth.php           # login, CSRF, authorization
+  children.php       # validasi dan operasi domain balita
 partials/
   header.php
   footer.php
@@ -96,6 +99,12 @@ database/
   schema.sql
   seed_demo.sql
   reset_demo.sql
+modules/balita/
+  index.php          # daftar, pencarian, filter
+  form.php           # tambah/edit
+  simpan.php         # endpoint POST create/update
+  detail.php         # detail dan riwayat
+  hapus.php          # arsip soft delete
 assets/css/style.css
 login.php
 index.php
@@ -104,8 +113,7 @@ logout.php
 
 ## Langkah berikutnya
 
-1. CRUD balita.
-2. Input timbangan dengan perhitungan usia di server.
-3. Modul assessor stunting.
-4. Dashboard dan laporan.
-5. PWA dan pengujian.
+1. Input timbangan dengan perhitungan usia di server.
+2. Modul assessor stunting.
+3. Dashboard dan laporan.
+4. PWA dan pengujian.
