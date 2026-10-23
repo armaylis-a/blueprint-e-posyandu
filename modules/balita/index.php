@@ -19,7 +19,7 @@ try {
     }
 
     if ($search !== '') {
-        $where[] = '(b.kode_balita LIKE :search OR b.nama_balita LIKE :search OR b.nama_wali LIKE :search)';
+        $where[] = '(b.kode_balita LIKE :search1 OR b.nama_balita LIKE :search2 OR b.nama_wali LIKE :search3)';
     }
 
     $sql = 'SELECT b.id_balita, b.kode_balita, b.nama_balita, b.jenis_kelamin,
@@ -41,7 +41,10 @@ try {
     }
 
     if ($search !== '') {
-        $parameters['search'] = '%' . $search . '%';
+        $searchParam = '%' . $search . '%';
+        $parameters['search1'] = $searchParam;
+        $parameters['search2'] = $searchParam;
+        $parameters['search3'] = $searchParam;
     }
 
     $statement->execute($parameters);
@@ -59,15 +62,15 @@ require __DIR__ . '/../../partials/header.php';
 
 <section class="page-heading">
     <div>
-        <p class="eyebrow">MODUL DATA · DATA SINTETIS</p>
+        <p class="eyebrow">MODUL DATA · e-POSYANDU</p>
         <h1>Data Balita</h1>
-        <p class="muted">Kelola data contoh balita untuk modul MVP. Tidak menggunakan data pribadi nyata.</p>
+        <p class="muted">Kelola dan pantau data identitas balita serta informasi wali posyandu.</p>
     </div>
     <a class="button button-primary" href="<?= e(app_url('modules/balita/form.php')) ?>">+ Tambah Balita</a>
 </section>
 
 <?php if (!$databaseReady): ?>
-    <div class="alert alert-error" role="alert">Database tidak dapat diakses. Periksa konfigurasi dan import schema/seed.</div>
+    <div class="alert alert-error" role="alert">Database tidak dapat diakses. Periksa konfigurasi koneksi database.</div>
 <?php endif; ?>
 
 <section class="panel filter-panel">
@@ -102,7 +105,7 @@ require __DIR__ . '/../../partials/header.php';
     <?php if ($children === []): ?>
         <div class="empty-state-box">
             <strong>Belum ada data yang cocok.</strong>
-            <p>Tambahkan balita sintetis atau ubah kata kunci pencarian.</p>
+            <p>Tambahkan data balita baru atau ubah kata kunci pencarian.</p>
             <a class="button button-primary button-small" href="<?= e(app_url('modules/balita/form.php')) ?>">Tambah balita</a>
         </div>
     <?php else: ?>
@@ -124,21 +127,61 @@ require __DIR__ . '/../../partials/header.php';
                     <?php
                     $isActive = (int) ($child['is_active'] ?? 0) === 1;
                     $consent = (string) ($child['status_persetujuan'] ?? 'not_recorded');
+
+                    // Bersihkan tulisan -DEMO dari kode balita
+                    $kodeClean = str_replace('-DEMO', '', (string)($child['kode_balita'] ?? ''));
+
+                    // Konversi Jenis Kelamin
+                    $jkRaw = strtoupper((string) ($child['jenis_kelamin'] ?? ''));
+                    if ($jkRaw === 'L') {
+                        $jkLabel = 'Laki-laki';
+                    } elseif ($jkRaw === 'P') {
+                        $jkLabel = 'Perempuan';
+                    } else {
+                        $jkLabel = $jkRaw ?: '-';
+                    }
+
+                    // Format Tanggal Lahir ke Bahasa Indonesia
+                    $rawBirthDate = (string) ($child['tgl_lahir'] ?? '');
+                    if ($rawBirthDate !== '') {
+                        $parts = explode('-', $rawBirthDate);
+                        if (count($parts) === 3) {
+                            if (strlen($parts[0]) === 4) {
+                                $day = (int)$parts[2];
+                                $month = (int)$parts[1];
+                                $year = $parts[0];
+                            } else {
+                                $day = (int)$parts[0];
+                                $month = (int)$parts[1];
+                                $year = $parts[2];
+                            }
+                            $bulanIndo = [
+                                1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                            ];
+                            $namaBulan = $bulanIndo[$month] ?? '';
+                            $formattedBirthDate = "{$day} {$namaBulan} {$year}";
+                        } else {
+                            $formattedBirthDate = $rawBirthDate;
+                        }
+                    } else {
+                        $formattedBirthDate = '-';
+                    }
                     ?>
                     <tr>
-                        <td><code><?= e($child['kode_balita']) ?></code></td>
+                        <td><code><?= e($kodeClean) ?></code></td>
                         <td>
                             <strong><?= e($child['nama_balita']) ?></strong>
                             <?php if (!$isActive): ?><br><span class="status status-planned">Diarsipkan</span><?php endif; ?>
                         </td>
-                        <td><?= e($child['jenis_kelamin']) ?></td>
-                        <td><?= e(format_date_id((string) $child['tgl_lahir'])) ?></td>
+                        <td><?= e($jkLabel) ?></td>
+                        <td><?= e($formattedBirthDate) ?></td>
                         <td><?= e($child['nama_wali']) ?></td>
                         <td>
                             <?php if ($consent === 'granted'): ?>
-                                <span class="status status-done">Granted</span>
+                                <span class="status status-done">Disetujui</span>
                             <?php elseif ($consent === 'withdrawn'): ?>
-                                <span class="status status-review">Withdrawn</span>
+                                <span class="status status-review">Dicabut</span>
                             <?php else: ?>
                                 <span class="status status-planned">Belum tercatat</span>
                             <?php endif; ?>

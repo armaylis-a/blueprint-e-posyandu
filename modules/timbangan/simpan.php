@@ -18,6 +18,30 @@ if (!is_string($csrfValue) || !csrf_verify($csrfValue)) {
     redirect(app_url('modules/timbangan/index.php'));
 }
 
+// PERBAIKAN: Normalisasi tanggal periksa ke format YYYY-MM-DD sebelum dikirim ke validasi
+if (isset($_POST['tgl_periksa']) && is_string($_POST['tgl_periksa'])) {
+    $rawDate = trim($_POST['tgl_periksa']);
+    
+    // Jika format berisi garis miring MM/DD/YYYY atau DD/MM/YYYY
+    if (str_contains($rawDate, '/')) {
+        $parts = explode('/', $rawDate);
+        if (count($parts) === 3) {
+            // Jika angka pertama > 12, kemungkinan DD/MM/YYYY
+            if ((int)$parts[0] > 12) {
+                $_POST['tgl_periksa'] = sprintf('%04d-%02d-%02d', (int)$parts[2], (int)$parts[1], (int)$parts[0]);
+            } else { // Asumsi MM/DD/YYYY
+                $_POST['tgl_periksa'] = sprintf('%04d-%02d-%02d', (int)$parts[2], (int)$parts[0], (int)$parts[1]);
+            }
+        }
+    } elseif (str_contains($rawDate, '-')) {
+        $parts = explode('-', $rawDate);
+        // Jika format DD-MM-YYYY
+        if (count($parts) === 3 && strlen($parts[0]) !== 4) {
+            $_POST['tgl_periksa'] = sprintf('%04d-%02d-%02d', (int)$parts[2], (int)$parts[1], (int)$parts[0]);
+        }
+    }
+}
+
 $validation = validate_measurement_payload($_POST);
 $data = $validation['data'];
 $errors = $validation['errors'];
@@ -68,7 +92,7 @@ try {
         'umur_bulan'       => (float) $data['umur_bulan'],
         'berat_badan_kg'   => (float) $data['berat_badan'],
         'tinggi_badan_cm'  => (float) $data['tinggi_badan'],
-        'jenis_pengukuran' => $data['jenis_pengukuran'],
+        'jenis_pengukuran' => $data['jenis_pengukuran'] ?? 'terlentang',
         'sumber_data'      => 'web',
         'catatan'          => $data['catatan'] !== '' ? $data['catatan'] : null,
         'created_by_user_id' => current_user_id() ?: null,
@@ -93,12 +117,12 @@ try {
         'catatan'         => $assessment['catatan'],
     ]);
 
-    write_audit('create', 'timbangan', $measurementId, 'Pengukuran sintetis disimpan dan dinilai dengan assessor demo.');
+    write_audit('create', 'timbangan', $measurementId, 'Pengukuran disimpan dan dinilai.');
     $pdo->commit();
 
     $message = $assessment['status_stunting'] === 'demo_indikasi_stunting'
-        ? 'Timbangan tersimpan. Hasil: indikasi demo, perlu ditinjau.'
-        : 'Timbangan tersimpan. Hasil: normal demo.';
+        ? 'Timbangan tersimpan. Hasil: indikasi stunting, perlu ditinjau.'
+        : 'Timbangan tersimpan. Hasil: normal.';
     set_flash('success', $message);
     redirect(app_url('modules/timbangan/index.php'));
 } catch (PDOException $exception) {

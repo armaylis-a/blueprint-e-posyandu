@@ -24,9 +24,9 @@ require __DIR__ . '/../../partials/header.php';
 
 <section class="page-heading">
     <div>
-        <p class="eyebrow">MODUL LAPORAN · DATA SINTETIS</p>
+        <p class="eyebrow">MODUL LAPORAN · e-POSYANDU</p>
         <h1>Laporan Bulanan</h1>
-        <p class="muted">Rekap pengukuran dan hasil assessor demo per periode.</p>
+        <p class="muted">Rekapitulasi pengukuran dan status gizi balita per periode bulanan.</p>
     </div>
     <?php if ($report !== null): ?>
         <div class="heading-actions">
@@ -37,7 +37,7 @@ require __DIR__ . '/../../partials/header.php';
 </section>
 
 <?php if (!$databaseReady || $report === null): ?>
-    <div class="alert alert-error" role="alert">Laporan tidak dapat dimuat. Periksa konfigurasi dan import schema/seed.</div>
+    <div class="alert alert-error" role="alert">Laporan tidak dapat dimuat. Periksa konfigurasi koneksi database.</div>
 <?php else: ?>
     <section class="panel filter-panel">
         <form method="get" action="<?= e(app_url('modules/laporan/index.php')) ?>" class="filter-form">
@@ -59,23 +59,23 @@ require __DIR__ . '/../../partials/header.php';
         <article class="stat-card">
             <span class="stat-label">Balita terukur</span>
             <strong><?= e((string) $report['summary']['children']) ?></strong>
-            <small>unik dalam periode</small>
+            <small>Unik dalam periode</small>
         </article>
         <article class="stat-card">
-            <span class="stat-label">Indikasi demo</span>
+            <span class="stat-label">Indikasi Stunting</span>
             <strong><?= e((string) $report['summary']['indication']) ?></strong>
-            <small>perlu ditinjau</small>
+            <small>Perlu ditinjau</small>
         </article>
         <article class="stat-card">
-            <span class="stat-label">Normal demo</span>
+            <span class="stat-label">Normal</span>
             <strong><?= e((string) $report['summary']['normal']) ?></strong>
-            <small>hasil simulasi</small>
+            <small>Hasil rekap</small>
         </article>
     </section>
 
     <div class="alert alert-warning" role="note">
-        <strong>Catatan.</strong>
-        Laporan ini menampilkan hasil assessor demo, bukan diagnosis klinis atau z-score resmi.
+        <strong>Catatan Sistem:</strong>
+        Rekapitulasi laporan menggunakan standar penilaian sementara dan akan disesuaikan dengan standar Z-Score WHO/Kemenkes pada pengembangan tahap selanjutnya.
     </div>
 
     <section class="panel">
@@ -90,7 +90,7 @@ require __DIR__ . '/../../partials/header.php';
         <?php if ($report['rows'] === []): ?>
             <div class="empty-state-box">
                 <strong>Belum ada pengukuran pada periode ini.</strong>
-                <p>Pilih bulan lain atau tambahkan data timbangan sintetis.</p>
+                <p>Pilih bulan lain atau tambahkan data timbangan balita.</p>
                 <a class="button button-primary button-small" href="<?= e(app_url('modules/timbangan/form.php')) ?>">Input timbangan</a>
             </div>
         <?php else: ?>
@@ -106,25 +106,61 @@ require __DIR__ . '/../../partials/header.php';
                             <th>Usia</th>
                             <th>BB</th>
                             <th>TB</th>
-                            <th>Hasil demo</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php foreach ($report['rows'] as $row): ?>
+                        <?php
+                        // Bersihkan -DEMO dari kode balita & nama balita
+                        $cleanCode = str_replace('-DEMO', '', (string)($row['kode_balita'] ?? ''));
+                        $cleanName = str_replace('Demo ', '', (string)($row['nama_balita'] ?? ''));
+
+                        // Format Jenis Kelamin
+                        $jkRaw = strtoupper((string)($row['jenis_kelamin'] ?? ''));
+                        $jkLabel = $jkRaw === 'L' ? 'Laki-laki' : ($jkRaw === 'P' ? 'Perempuan' : $jkRaw);
+
+                        // Format Tanggal Periksa ke Bahasa Indonesia
+                        $rawDate = (string) ($row['tgl_periksa'] ?? '');
+                        if ($rawDate !== '') {
+                            $parts = explode('-', $rawDate);
+                            if (count($parts) === 3) {
+                                if (strlen($parts[0]) === 4) {
+                                    $day = (int)$parts[2];
+                                    $monthNum = (int)$parts[1];
+                                    $year = $parts[0];
+                                } else {
+                                    $day = (int)$parts[0];
+                                    $monthNum = (int)$parts[1];
+                                    $year = $parts[2];
+                                }
+                                $bulanIndo = [
+                                    1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                                ];
+                                $namaBulan = $bulanIndo[$monthNum] ?? '';
+                                $formattedDate = "{$day} {$namaBulan} {$year}";
+                            } else {
+                                $formattedDate = $rawDate;
+                            }
+                        } else {
+                            $formattedDate = '-';
+                        }
+                        ?>
                         <tr>
-                            <td><code><?= e($row['kode_balita']) ?></code></td>
-                            <td><?= e($row['nama_balita']) ?></td>
-                            <td><?= e($row['jenis_kelamin']) ?></td>
+                            <td><code><?= e($cleanCode) ?></code></td>
+                            <td><?= e($cleanName) ?></td>
+                            <td><?= e($jkLabel) ?></td>
                             <td><?= e($row['nama_wali']) ?></td>
-                            <td><?= e(format_date_id((string) $row['tgl_periksa'])) ?></td>
+                            <td><?= e($formattedDate) ?></td>
                             <td><?= e((string) $row['umur_bulan']) ?> bln</td>
                             <td><?= e((string) $row['berat_badan_kg']) ?> kg</td>
                             <td><?= e((string) $row['tinggi_badan_cm']) ?> cm</td>
                             <td>
                                 <?php if ((string) ($row['status_stunting'] ?? '') === 'demo_indikasi_stunting'): ?>
-                                    <span class="status status-review">Indikasi demo</span>
+                                    <span class="status status-review">Indikasi Stunting</span>
                                 <?php elseif ((string) ($row['status_stunting'] ?? '') !== ''): ?>
-                                    <span class="status status-done">Normal demo</span>
+                                    <span class="status status-done">Normal</span>
                                 <?php else: ?>
                                     <span class="status status-planned">Belum dihitung</span>
                                 <?php endif; ?>
